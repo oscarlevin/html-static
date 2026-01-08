@@ -86,4 +86,4 @@ jobs:
           gh release create "$tag" \
             --repo="$GITHUB_REPOSITORY" \
             --title="$tag" \
-            --generate-notes
+            --notes="CDN files updated to CLI version $tag"
