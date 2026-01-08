@@ -5,8 +5,8 @@ on:
     # * is a special character in YAML so you have to quote this string
     # - cron: "0 0 * * 0"
 
-  repository_dispatch:
-    types: [pretext-publish]
+  #repository_dispatch:
+  #  types: [pretext-publish]
 
   workflow_dispatch:
 
@@ -75,12 +75,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Release
-        id: create_release
-        uses: actions/create-release@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: "${{ env.CLI_VERSION }}"
-          release_name: "${{ env.CLI_VERSION }}"
-          draft: false
-          prerelease: false
+          tag: ${{ github.ref_name }}
+        run: |
+          gh release create "$tag" \
+            --repo="$GITHUB_REPOSITORY" \
+            --title="$tag" \
+            --generate-notes
